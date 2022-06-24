@@ -1,0 +1,16 @@
+{
+  "name": "cryptux",
+  "version": "1.0.0",
+  "description": "Crypto CLI for DCA & trade",
+  "bin": {
+      "cryptux": "./src/cryptux.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sylvain MOREAU <mor.sylvain@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@binance/connector": "^1.10.0"
+  }
+}
