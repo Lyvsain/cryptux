@@ -14,8 +14,6 @@ if(!process.env.BINANCE_TESTNET) {
     client = new Spot(apiKey, apiSecret, { baseURL: 'https://testnet.binance.vision'})
 }
 
-
-
 const buy = async ({ symbol, quantity}) => {
     if(apiKey && apiSecret) {
         if(symbol && quantity) {
@@ -42,39 +40,6 @@ const buy = async ({ symbol, quantity}) => {
     }
 }
 
-const updateSheets = async ({dataSpreadsheet, symbol}, date, orderId, price, quote, quantity) => {
-
-    const service = await Utils.authenticateGoogle()
-    if(service) {        
-        try {
-            const result = await service.spreadsheets.values.get({spreadsheetId: dataSpreadsheet, range: `'${symbol}'!A:G`})
-
-            if(result.data) {
-                const lastLine = result.data.values.length ;
-                const newLine = lastLine + 1
-                const update = await service.spreadsheets.values.update({
-                    spreadsheetId: dataSpreadsheet,
-                    range: `'${symbol}'!A${newLine}:G${newLine}`,
-                    valueInputOption: "USER_ENTERED",
-                    resource: {
-                        values: [
-                            [date, orderId
-                            , price.replace('.', ',')
-                            , quote.replace('.', ',')
-                            , quantity.replace('.', ',')
-                            , `=D${newLine}+F${lastLine}`
-                            , `=E${newLine}+G${lastLine}`]]
-                    }
-                })
-            }
-        }catch(e) {
-            console.error('Error: %o', e);
-        }
-    } else { 
-        console.error("Google service not set up")
-    }
-}
-
 const trade = ({symbol}) => {
     const callBacks = {
         open: () => console.log('open'),
@@ -86,6 +51,5 @@ const trade = ({symbol}) => {
 
 module.exports = {
     buy,
-    updateSheets, 
     trade
 }

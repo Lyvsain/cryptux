@@ -2,6 +2,7 @@
 
 const program = require('commander')
 const Command = require('./commands')
+const Utils = require('./utils')
 
 program.command('buy')
     .description('Place a buy order & fill spreadsheet')
@@ -21,7 +22,7 @@ program.command('buy')
                 , data.fills[0].price
                 , args.symbol.split('/')[1]);
 
-                Command.updateSheets(args
+                Utils.updateSheets(args
                     , new Date(data.transactTime).toLocaleDateString()
                     , data.clientOrderId
                     , data.fills[0].price
